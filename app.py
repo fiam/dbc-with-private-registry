@@ -12,7 +12,7 @@ def hello():
     version = os.getenv('VERSION')
     if not version:
         version = 'unknown'
-    return f'Hello! Version {version}, current server time is {now}'
+    return f'Hello again! Version {version}, current server time is {now}'
 
 @app.route('/healthz')
 def healthz():
