@@ -72,12 +72,19 @@ jobs:
           git tag ${{ steps.tag.outputs.tag }}
           git push origin ${{ steps.tag.outputs.tag }}
 
+      - name: Get Git version
+        id: git_version
+        run: |
+          echo "version=$(git describe --tags --dirty --always)" >> $GITHUB_OUTPUT  
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64
+          build-args: |
+              VERSION=${{ steps.git_version.outputs.version }}
           tags: |
             ${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }}
             ${{ env.IMAGE_NAME }}:latest

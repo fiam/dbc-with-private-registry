@@ -1,17 +1,17 @@
-# Use official Python base image
 FROM python:3.11-slim
+ARG VERSION
 
-# Set working directory
 WORKDIR /app
 
-# Install Flask
-RUN pip install Flask
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy app code into container
 COPY app.py .
 
-# Expose port
+ENV VERSION=${VERSION}
+
 EXPOSE 5001
 
-# Run the app
 CMD ["python", "app.py"]
